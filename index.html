@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Treasure Chest Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #006699;
+        }
+    </style>
+</head>
+<body>
+    <h1>Treasure Chest Game</h1>
+    <p>Xin chào, <span id="username">Người chơi</span>!</p>
+    <p>Số dư: <span id="balance">0</span> TCT</p>
+    <button onclick="buyChest()">Mua rương (0.1 TON)</button>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+
+        // Lấy thông tin người dùng từ Telegram
+        const user = tg.initDataUnsafe.user;
+        if (user) {
+            document.getElementById("username").innerText = user.first_name;
+        }
+
+        // Hàm mua rương (gửi yêu cầu đến bot)
+        function buyChest() {
+            tg.sendData(JSON.stringify({
+                action: "buy_chest",
+                userId: user.id
+            }));
+        }
+    </script>
+</body>
+</html>
